@@ -79,7 +79,7 @@ function getApi() {
 
 function updateStat(api) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://23.100.38.125:9000/api/invokecount?api=' + api, true);
+    xhr.open('GET', 'http://127.0.0.1:9000/api/invokecount?api=' + api, true);
     xhr.responseType = 'json';
     xhr.onload = function() {
         var status = xhr.status;
@@ -105,7 +105,12 @@ function runWasm(e) {
     reader.onload = function(e) {
         setLoading(true);
         var req = new XMLHttpRequest();
-        req.open("POST", 'http://23.100.38.125:9000/api/' + getApi(), true);
+        var apivalue = getApi();
+        if (apivalue == "grayscale") {
+            req.open("POST", 'http://localhost:9005/grayscale', true);
+        } else {
+            req.open("POST", 'http://localhost:9006/classify', true);
+        }
         req.setRequestHeader('api', getApi());
         req.onload = function() {
             setLoading(false);
